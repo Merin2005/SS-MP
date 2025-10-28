@@ -1,0 +1,30 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H      ; Starting address of numbers
+    MOV CL, 05H        ; Number of elements (example = 5)
+    MOV AL, 00H        ; Positive count
+    MOV BL, 00H        ; Negative count
+
+NEXTNUM:
+    MOV DL, [SI]       ; Load current number
+    TEST DL, 80H       ; Check MSB (sign bit)
+    JZ POSITIVE        ; If 0 → positive
+NEGATIVE:
+    INC BL             ; Negative count++
+    JMP NEXT
+POSITIVE:
+    INC AL             ; Positive count++
+NEXT:
+    INC SI
+    DEC CL
+    JNZ NEXTNUM
+
+    MOV [SI], AL       ; Store positive count
+    INC SI
+    MOV [SI], BL       ; Store negative count
+
+    INT 3
+CODE ENDS
+END START
