@@ -1,0 +1,26 @@
+
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H      ; Starting address of numbers
+    MOV CL, 05H        ; Number of elements (example = 5)
+    MOV AL, [SI]       ; Assume first number is largest
+
+NEXTNUM:
+    INC SI
+    MOV BL, [SI]       ; Get next number
+    CMP BL, AL
+    JBE SKIP           ; If BL ≤ AL, skip
+    MOV AL, BL         ; Else, update largest
+
+SKIP:
+    DEC CL
+    JNZ NEXTNUM
+
+    INC SI
+    MOV [SI], AL       ; Store largest number after list
+
+    INT 3
+CODE ENDS
+END START
