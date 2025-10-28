@@ -1,0 +1,22 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H
+    MOV AL, [SI]
+    TEST AL, 80H        ; check sign bit (MSB)
+    JZ POSITIVE          ; if 0 → positive
+
+NEGATIVE:
+    INC SI
+    MOV BYTE PTR [SI], 'N'
+    JMP ENDPROG
+
+POSITIVE:
+    INC SI
+    MOV BYTE PTR [SI], 'P'
+
+ENDPROG:
+    INT 3
+CODE ENDS
+END START
