@@ -1,0 +1,26 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H        ; Point to the 16-bit number (low byte first)
+    MOV AL, [SI]         ; Load low byte
+    INC SI
+    MOV AH, [SI]         ; Load high byte → AX = number
+
+    MOV BX, AX           ; Copy AX → BX (for squaring)
+
+    MUL BX               ; Unsigned multiply AX × BX → DX:AX (32-bit result)
+
+    INC SI               ; Move to 3002H → where result will be stored
+    MOV [SI], AL         ; Store lowest byte of result
+    INC SI
+    MOV [SI], AH         ; Store next byte
+    INC SI
+    MOV [SI], DL         ; Store next higher byte
+    INC SI
+    MOV [SI], DH         ; Store highest byte of result
+
+    INT 3                ; Stop for observation in EMU8086
+
+CODE ENDS
+END START
