@@ -1,0 +1,34 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI,1500H      ; Load base address
+    MOV CL,[SI]       ; CL = count of numbers
+    DEC CL            ; Outer loop = count - 1
+
+OUTER:
+    MOV SI,1500H
+    MOV CH,[SI]       ; CH = count of numbers
+    DEC CH            ; Inner loop = count - 1
+    INC SI            ; Point to first number (1501H)
+
+INNER:
+    MOV AL,[SI]       ; AL = current number
+    INC SI
+    CMP AL,[SI]       ; Compare AL with next number
+    JC NEXT            ; If AL < [SI], no swap needed
+    XCHG AL,[SI]      ; Swap numbers
+    DEC SI
+    MOV [SI],AL       ; Store swapped value
+    INC SI
+
+NEXT:
+    DEC CH
+    JNZ INNER         ; Repeat inner loop
+    DEC CL
+    JNZ OUTER         ; Repeat outer loop
+
+    INT 3             ; Stop program
+
+CODE ENDS
+END START
