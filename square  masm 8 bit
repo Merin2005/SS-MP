@@ -1,0 +1,19 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H        ; Point to the number
+    MOV AL, [SI]         ; Load the 8-bit number into AL
+    MOV BL, AL           ; Copy the same number into BL
+
+    MUL BL               ; Multiply AL × BL → Result in AX (AH = high, AL = low)
+
+    INC SI               ; Move to next location (3001H)
+    MOV [SI], AL         ; Store low byte of square
+    INC SI
+    MOV [SI], AH         ; Store high byte of square
+
+    INT 3                ; Stop execution for observation
+
+CODE ENDS
+END START
