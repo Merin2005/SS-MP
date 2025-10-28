@@ -1,0 +1,28 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H        ; Point to first 16-bit number (low byte)
+    MOV AL, [SI]         ; Load low byte of first number
+    INC SI
+    MOV AH, [SI]         ; Load high byte of first number → AX = first number
+
+    INC SI
+    MOV BL, [SI]         ; Load low byte of second number
+    INC SI
+    MOV BH, [SI]         ; Load high byte of second number → BX = second number
+
+    MUL BX               ; Unsigned multiply AX × BX → DX:AX (DX = high, AX = low)
+
+    INC SI               ; Move to next memory location for result
+    MOV [SI], AL         ; Store lowest byte of result
+    INC SI
+    MOV [SI], AH         ; Store next byte
+    INC SI
+    MOV [SI], DL         ; Store next higher byte
+    INC SI
+    MOV [SI], DH         ; Store highest byte
+
+    HLT
+CODE ENDS
+END START
