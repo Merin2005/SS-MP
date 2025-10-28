@@ -1,0 +1,33 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H        ; number stored at 3000H (low), 3001H (high)
+    MOV AL, [SI]
+    INC SI
+    MOV AH, [SI]         ; AX = number
+
+    MOV BX, AX           ; copy number → BX
+
+    MUL BX               ; AX × BX → DX:AX = number²
+
+    ; Now multiply number² (DX:AX) by the original number again
+    MOV BX, [3000H]      ; reload original number
+    MOV BL, [3000H]
+    MOV BH, [3001H]      ; BX = number
+
+    MUL BX               ; (DX:AX) × BX → final cube result (low 32 bits)
+
+    INC SI
+    MOV [SI], AL         ; store lowest byte
+    INC SI
+    MOV [SI], AH
+    INC SI
+    MOV [SI], DL
+    INC SI
+    MOV [SI], DH         ; highest byte
+
+    INT 3                ; stop for observation
+
+CODE ENDS
+END START
