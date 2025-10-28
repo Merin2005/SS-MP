@@ -1,0 +1,22 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H
+    MOV AL, [SI]       ; load number
+    TEST AL, 01H       ; check LSB
+    JZ EVEN            ; if zero → even
+
+ODD:
+    INC SI
+    MOV BYTE PTR [SI], 'O'   ; mark as Odd
+    JMP ENDPROG
+
+EVEN:
+    INC SI
+    MOV BYTE PTR [SI], 'E'   ; mark as Even
+
+ENDPROG:
+    INT 3
+CODE ENDS
+END START
