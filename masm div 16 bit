@@ -1,0 +1,31 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H        ; Point to first number (dividend)
+    MOV AL, [SI]         ; Load low byte of dividend
+    INC SI
+    MOV AH, [SI]         ; Load high byte → AX = dividend
+
+    INC SI
+    MOV BL, [SI]         ; Load low byte of divisor
+    INC SI
+    MOV BH, [SI]         ; Load high byte → BX = divisor
+
+    MOV DX, 0000H        ; Clear DX before division (for 32-bit dividend)
+    DIV BX               ; Unsigned divide DX:AX by BX
+                         ; Quotient → AX, Remainder → DX
+
+    INC SI               ; Move to result storage (3004H)
+    MOV [SI], AL         ; Store quotient low byte
+    INC SI
+    MOV [SI], AH         ; Store quotient high byte
+    INC SI
+    MOV [SI], DL         ; Store remainder low byte
+    INC SI
+    MOV [SI], DH         ; Store remainder high byte
+
+    INT 3                ; Stop execution (for checking result in EMU8086)
+
+CODE ENDS
+END START
