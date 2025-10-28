@@ -1,0 +1,36 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    ADD CL, 00H          ; Initialize carry register (CL = 0)
+
+    MOV SI, 3000H        ; Point to first number (low byte)
+    MOV AL, [SI]         ; Load low byte of first number
+    INC SI
+    MOV AH, [SI]         ; Load high byte of first number
+
+    INC SI
+    MOV BL, [SI]         ; Load low byte of second number
+    INC SI
+    MOV BH, [SI]         ; Load high byte of second number
+
+    ADD AX, BX           ; 16-bit addition (AX = AX + BX)
+
+    INC SI               ; Move to result location
+    MOV [SI], AL         ; Store low byte of result
+    INC SI
+    MOV [SI], AH         ; Store high byte of result
+
+    JC L1                ; If carry, jump to L1
+    INC SI
+    MOV [SI], CL         ; Store CL (carry = 0)
+    INT 3                ; Stop here (no carry)
+
+L1: 
+    INC CL               ; Carry = 1
+    INC SI
+    MOV [SI], CL         ; Store carry = 1
+    INT 3                ; Stop here (carry case)
+
+CODE ENDS
+END START
