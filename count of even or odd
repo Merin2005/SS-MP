@@ -1,0 +1,30 @@
+CODE SEGMENT
+ASSUME CS:CODE
+
+START:
+    MOV SI, 3000H      ; Starting address of numbers
+    MOV CL, 05H        ; Number of elements (example = 5)
+    MOV AL, 00H        ; Even count
+    MOV BL, 00H        ; Odd count
+
+NEXTNUM:
+    MOV DL, [SI]       ; Load current number
+    TEST DL, 01H       ; Check LSB
+    JZ EVEN
+ODD:
+    INC BL             ; Increment odd count
+    JMP NEXT
+EVEN:
+    INC AL             ; Increment even count
+NEXT:
+    INC SI             ; Move to next number
+    DEC CL
+    JNZ NEXTNUM
+
+    MOV [SI], AL       ; Store even count
+    INC SI
+    MOV [SI], BL       ; Store odd count
+
+    INT 3
+CODE ENDS
+END START
